@@ -3,6 +3,7 @@
 require 'discordrb'
 require 'ikku'
 require 'natto'
+require 'redis'
 require_relative './lib/bot'
 require_relative './lib/discord_event_handler'
 require_relative './lib/verse_rule_generator'
@@ -17,6 +18,17 @@ end
 
 ENV_DEBUG_MODE = 'DEBUG_MODE'
 debug_mode = %w[1 true].member? ENV[ENV_DEBUG_MODE]
+
+ENV_REDIS_URL = 'REDIS_URL'
+unless ENV[ENV_REDIS_URL]
+  puts "ERROR! The environment variable #{ENV_REDIS_URL} is not defined."
+  exit 1
+end
+
+redis = Redis.new
+# DEBUG:
+redis.set('foo', 'bar')
+puts redis.get('foo')
 
 get_rand = method(:rand)
 get_today = Date.method(:today)
