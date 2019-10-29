@@ -27,8 +27,13 @@ end
 
 redis = Redis.new
 # DEBUG:
-redis.set('foo', 'bar')
-puts redis.get('foo')
+begin
+  redis.set('foo', 'bar')
+  puts redis.get('foo')
+rescue Exception => e
+  puts 'redis failed'
+  p e
+end
 
 get_rand = method(:rand)
 get_today = Date.method(:today)
